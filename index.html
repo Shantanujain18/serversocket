@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WebSocket Playground</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.js" integrity="sha512-MNW6IbpNuZZ2VH9ngFhzh6cUt8L/0rSVa60F8L22K1H72ro4Ki3M/816eSDLnhICu7vwH/+/yb8oB3BtBLhMsA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <input type="button" onclick="xyz()" value="CLick"/>
+</body>
+<script>
+    const ws = new WebSocket('ws://localhost:9898/');
+   
+    ws.onopen = function() {
+    console.log('WebSocket Client Connected');
+    // ws.send('Hi this is web client.');
+
+    };
+
+
+    function xyz(){
+        // alert('asdas')
+        
+    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=d814a4f03e373e7e5f69432e1c278d53').then(resp => {
+
+    console.log(JSON.stringify(resp));
+    ws.send(JSON.stringify(resp.data));
+    });    
+
+ws.onmessage = function(e) {
+  console.log("Received: '" + e.data + "'");
+};
+}
+
+</script>
+</html>
